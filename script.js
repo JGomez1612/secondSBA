@@ -8,7 +8,7 @@ const CourseInfo = {
 const AssignmentGroup = {
     id: 12345,
     name: "Fundamentals of JavaScript",
-    course_id: 452,
+    course_id: 451,
     group_weight: 25,
     assignments: [
         {
@@ -43,7 +43,7 @@ const LearnerSubmissions = [
         }
     },
     {
-        learner_id: 125, // line uip with assignment 2
+        learner_id: 125, // line up with assignment 2
         assignment_id: 2,
         submission: {
             submitted_at: "2023-02-12",
@@ -77,12 +77,9 @@ const LearnerSubmissions = [
 
 ];
 
-
 function getLearnerData(course, ag, submissions) {
     // here, we would process this data to achieve the desired result.
-    const result = [];
-
-    let today = "2025-08-07"
+    const result = []
 
     // console.log(`Course Info`, CourseInfo);
     // console.log(`Assignment Group(ag)`, AssignmentGroup);
@@ -91,10 +88,9 @@ function getLearnerData(course, ag, submissions) {
     return result;
 }
 
-
-
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 
+getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 // console.log(result);
 
 // Helper Functions --------------------------------------------------------------------
@@ -112,7 +108,7 @@ function courseMatch(CourseInfo, AssignmentGroup) {
         console.log(error)
     }
 }
-courseMatch(CourseInfo, AssignmentGroup);
+// courseMatch(CourseInfo, AssignmentGroup);
 
 // Function to grab and seperate learner info
 
@@ -126,15 +122,69 @@ function learnerList(LearnerSubmissions) {
 
 }
 
-let learners = learnerList(LearnerSubmissions);
-console.log(learners)
+// let learners = learnerList(LearnerSubmissions);
+// console.log(learners)
+
 // Function that creates an array for the assignments
 
-function assignmentList(AssignmentGroup) {
+function assignmentsArray(AssignmentGroup) {
     return AssignmentGroup.assignments
 }
 
-const assignmentsArray = assignmentList(AssignmentGroup)
+const assignmentsArr = assignmentsArray(AssignmentGroup)
 
-console.log(assignmentsArray)
-///guide me step by step on how to grab unique keys from several objects nested in an array and add them to and empty array
+// console.log(assignmentsArray)
+
+// Function that creates an array of submissions and scores
+
+function learnerSubs(LearnerSubmissions) {
+    let learnerSubArrays = []
+    for (let sub of LearnerSubmissions) {
+        learnerSubArrays.push(sub.submission)
+    }
+
+    return [...new Set(learnerSubArrays)]
+}
+
+let subs = learnerSubs(LearnerSubmissions)
+
+// console.log(subs)
+
+// Function that grabs submissions by learnerID
+
+function getSubmissionByLearner(learnerID, submissions) {
+    const learnerSubmissions = [];
+
+    for (let i = 0; i < submissions.length; i++) {
+        const submission = submissions[i];
+        if (submission.learner_id === learnerID) {
+            learnerSubmissions.push(submission);
+        }
+    }
+
+    return learnerSubmissions
+
+}
+
+console.log(getSubmissionByLearner(125, LearnerSubmissions));
+
+// Function that checks validates the due dates of the assignments
+
+function validAssignments(assignmentsArr) {
+    const today = "2025-08-08";
+    let validAssignment = [];
+
+    for(let asn of assignmentsArr){
+        if (asn.due_at > today) {
+            continue;
+        }
+        validAssignment.push(asn.id)
+    }
+
+    return validAssignment
+
+}
+
+let assignments = validAssignments(assignmentsArr)
+console.log(assignments);
+
