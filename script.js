@@ -110,6 +110,16 @@ function courseMatch(CourseInfo, AssignmentGroup) {
 }
 // courseMatch(CourseInfo, AssignmentGroup);
 
+// Function that creates an array for the assignments
+
+function assignmentsArray(AssignmentGroup) {
+    return AssignmentGroup.assignments
+}
+
+const assignmentsArr = assignmentsArray(AssignmentGroup)
+
+console.log(assignmentsArr)
+
 // Function to grab and seperate learner info
 
 function learnerList(LearnerSubmissions) {
@@ -122,53 +132,28 @@ function learnerList(LearnerSubmissions) {
 
 }
 
-// let learners = learnerList(LearnerSubmissions);
+let learners = learnerList(LearnerSubmissions);
 // console.log(learners)
-
-// Function that creates an array for the assignments
-
-function assignmentsArray(AssignmentGroup) {
-    return AssignmentGroup.assignments
-}
-
-const assignmentsArr = assignmentsArray(AssignmentGroup)
-
-// console.log(assignmentsArray)
-
-// Function that creates an array of submissions and scores
-
-function learnerSubs(LearnerSubmissions) {
-    let learnerSubArrays = []
-    for (let sub of LearnerSubmissions) {
-        learnerSubArrays.push(sub.submission)
-    }
-
-    return [...new Set(learnerSubArrays)]
-}
-
-let subs = learnerSubs(LearnerSubmissions)
-
-// console.log(subs)
 
 // Function that grabs submissions by learnerID
 
 function getSubmissionByLearner(learnerID, submissions) {
-    const learnerSubmissions = [];
+    const learnerSubs = [];
 
     for (let i = 0; i < submissions.length; i++) {
         const submission = submissions[i];
         if (submission.learner_id === learnerID) {
-            learnerSubmissions.push(submission);
+            learnerSubs.push(submission);
         }
     }
 
-    return learnerSubmissions
+    return learnerSubs
 
 }
 
-console.log(getSubmissionByLearner(125, LearnerSubmissions));
+// console.log(getSubmissionByLearner(125, LearnerSubmissions));
 
-// Function that checks validates the due dates of the assignments
+// Function that checks and validates the due dates of the assignments
 
 function validAssignments(assignmentsArr) {
     const today = "2025-08-08";
@@ -185,6 +170,36 @@ function validAssignments(assignmentsArr) {
 
 }
 
-let assignments = validAssignments(assignmentsArr)
-console.log(assignments);
+let assignments = validAssignments(AssignmentGroup.assignments)
+// console.log(assignments);
 
+// Function that filters submissions to return assignment_ids that are in valid assignments
+
+function validSubmissionsForLearner(learnerSubs,validAssignments){
+    let validSubs = []
+
+    learnerSubs.forEach(sub => {
+        if(validAssignments.indexOf(sub.assignment_id) !== -1){
+            validSubs.push(sub)
+        }
+    });
+    return validSubs
+}
+
+const learnerSubs = getSubmissionByLearner(125, LearnerSubmissions);
+
+
+// console.log(validSubmissionsForLearner(learnerSubs, assignments));
+
+
+/// Function to find assignment by its ID
+
+function findAssignmentById(assignmentArr, assignments_id){
+    for(let assignment of assignmentArr){
+        if(assignment.id == assignments_id){
+            return assignment
+        }
+    }
+}
+
+// console.log(findAssignmentById(assignmentsArr, 1))

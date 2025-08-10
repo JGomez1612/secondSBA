@@ -8,13 +8,13 @@
 - Implement error handling to manage potential code failures gracefully.
 
 ## Rubric Checklist
-- Declare variables properly using `let` and `const` where appropriate.
+- Declare variables properly using `let` and `const` where appropriate.✔
 - Use operators to perform calculations on variable and literals
-- Use string, numbers, boolean values cached within variables
-- Use at least 2 if/else statements to control program flow. Optionally, use at least 1 switch statement
-- Use try/catch statements to manage potential errors in the code, such as incorrectly formatted or typed data being fed into your program.
-- Utilize at least two different types of loops.
-- Utilize at least one loop control keyword such as break or continue.
+- Use string, numbers, boolean values cached within variables✔
+- Use at least 2 if/else statements to control program flow. Optionally, use at least 1 switch statement✔
+- Use try/catch statements to manage potential errors in the code, such as incorrectly formatted or typed data being fed into your program.✔
+- Utilize at least two different types of loops.✔
+- Utilize at least one loop control keyword such as break or continue.✔
 - Create and/or manipulate arrays and objects.
 - Demonstrate the retrieval, manipulation, and removal of items in an array or properties in an object.
 - Use functions to handle repeated tasks.
