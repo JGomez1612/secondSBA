@@ -81,9 +81,25 @@ function getLearnerData(course, ag, submissions) {
     // here, we would process this data to achieve the desired result.
     const result = []
 
-    // console.log(`Course Info`, CourseInfo);
-    // console.log(`Assignment Group(ag)`, AssignmentGroup);
-    // console.log(`Submissions`, submissions);
+    // Get all learner IDs
+    const learners = learnerList(submissions);
+
+    // Get valid assignments for this assignment group
+    const validAssigns = validAssignments(ag.assignments);
+
+    for (let learnerID of learners){
+        // Submissions for learners
+        const learnerSubs = getSubmissionByLearner(learnerID, submissions);
+
+        // Filter valid submissions for learner
+        const validSubs = validSubmissionsForLearner(learnerSubs, validAssigns);
+
+        // Get score object
+        const learnerGrade = learnerScoreObj(learnerID, validSubs, ag.assignments);
+
+        // Push to result
+        result.push(learnerGrade)
+    }
 
     return result;
 }
@@ -91,7 +107,7 @@ function getLearnerData(course, ag, submissions) {
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 
 getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
-// console.log(result);
+console.log(result);
 
 // Helper Functions --------------------------------------------------------------------
 
@@ -118,7 +134,7 @@ function assignmentsArray(AssignmentGroup) {
 
 const assignmentsArr = assignmentsArray(AssignmentGroup)
 
-console.log(assignmentsArr)
+// console.log(assignmentsArr)
 
 // Function to grab and seperate learner info
 
@@ -170,6 +186,12 @@ function validAssignments(assignmentsArr) {
 
 }
 
+// Function to check if assignment is late
+
+function isLate(submitted_at, due_at) {
+    return submitted_at > due_at;
+}
+
 let assignments = validAssignments(AssignmentGroup.assignments)
 // console.log(assignments);
 
@@ -187,9 +209,9 @@ function validSubmissionsForLearner(learnerSubs,validAssignments){
 }
 
 const learnerSubs = getSubmissionByLearner(125, LearnerSubmissions);
+const validSubs = validSubmissionsForLearner(learnerSubs, assignments)
 
-
-// console.log(validSubmissionsForLearner(learnerSubs, assignments));
+// console.log(validSubs);
 
 
 /// Function to find assignment by its ID
@@ -203,3 +225,59 @@ function findAssignmentById(assignmentArr, assignments_id){
 }
 
 // console.log(findAssignmentById(assignmentsArr, 1))
+
+// Function that averages the total score using the totalPossiblePoints
+
+function averageTotalScore(validSubs, assignmentArr){
+    let totalScore = 0;
+    let totalPossiblePoints = 0;
+
+    for(let i = 0; i < validSubs.length; i++){
+        let matchingAssignment = findAssignmentById(assignmentArr, validSubs[i].assignment_id);
+        totalPossiblePoints += matchingAssignment.points_possible;
+        totalScore += validSubs[i].submission.score
+    }
+
+    return totalScore / totalPossiblePoints
+
+}
+
+// console.log(averageTotalScore(validSubs, AssignmentGroup.assignments));
+
+
+function learnerScoreObj(learnerID, validSubs, assignmentArr){
+    const learnerGradeObj = { id: learnerID };
+
+    let totalScore = 0;
+    let totalPoints = 0;
+
+    const latePenalty = 15; // 10% penalty for late submissions
+
+    for(let sub of validSubs) {
+        let matchingAssignment = findAssignmentById(assignmentArr, sub.assignment_id);
+        if (!matchingAssignment) continue;
+
+        const submittedDate = sub.submission.submitted_at;
+        const dueDate = matchingAssignment.due_at;
+
+        let rawScore = sub.submission.score;
+        let adjustedScore = rawScore;
+
+        if(submittedDate > dueDate) {
+            adjustedScore = rawScore - latePenalty;
+        }
+
+        totalPoints += matchingAssignment.points_possible
+        totalScore += adjustedScore
+
+        learnerGradeObj[sub.assignment_id] = adjustedScore / matchingAssignment.points_possible
+    }
+
+   learnerGradeObj.avg = totalScore / totalPoints
+   return learnerGradeObj;
+
+}
+
+learnerGrade = learnerScoreObj(125, validSubs, AssignmentGroup.assignments)
+
+// console.log(learnerGrade)
