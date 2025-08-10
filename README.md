@@ -23,17 +23,17 @@
 - Commit frequently to the git repository.✔
 - Include a README file that contains a description of your application. ✔
 
-## Desired Output
-Within an array should be these objects
-    {
-      id: 125, // ID of learner
-      avg: 0.985, // (47 + 150) / (50 + 150)
-      1: 0.94, // 47 / 50
-      2: 1.0 // 150 / 150
-    },
-    {
-      id: 132,
-      avg: 0.82, // (39 + 125) / (50 + 150)
-      1: 0.78, // 39 / 50
-      2: 0.833 // late: (140 - 15) / 150
-    }
+
+## Reflection
+
+- What could you have done differently during the planning stages of your project to make the execution easier?
+  - I think I tend to have analysis/decision paralysis, where a lot of information can be overwhelming which causes me to freeze up and struggle to make a decision on what to do or where to start. I want to keep improving in the breakdown of a big task into smaller tasks and the systematic approach towards problems. I believe that will come with time and expereience.
+
+- Were there any requirements that were difficult to implement? What do you think would make them easier to implement in future projects?
+  - I feel my use of for loops could improve. Not that they are super difficult to use but I tend to stick to for of and for loops. I need to continue attempting other for loop methods so my understanding of their use cases continues to grow.
+
+- What would you add to, or change about your application if given more time?
+  - Maybe an extra credit sort of system? Sort of like a small percentage boost to your score if a certain assignment was submitted.
+
+- Use this space to make notes for your future self about anything that you think is important to remember about this process or that may aid you when attempting something similar again:
+  - Again I want to reiterate that I need to keep strengthening my planning process. Don't let a big problem overwhelm me and to continue to dissect and breakdown an issue into small doable steps. I'd like to read/watch how other developers process issues and problems.

@@ -175,11 +175,11 @@ function validAssignments(assignmentsArr) {
     const today = "2025-08-08";
     let validAssignment = [];
 
-    for(let asn of assignmentsArr){
-        if (asn.due_at > today) {
+    for(let assignment of assignmentsArr){
+        if (assignment.due_at > today) {
             continue;
         }
-        validAssignment.push(asn.id)
+        validAssignment.push(assignment.id)
     }
 
     return validAssignment
